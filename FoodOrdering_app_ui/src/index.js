@@ -14,9 +14,9 @@ import Home from './Components/Home';
 import Login from './Components/Login';
 import Profile from './Components/Profile';
 import Register from './Components/Register';
-import OrderUsers from './Pages/Order/OrderUsers';
-import { OrderSelection } from './Pages/Order/OrderSelection';
-import { OrderMealList } from './Pages/Order/OrderMealList';
+import ShowOrdersBasedOnUser from './Pages/Order/ShowOrdersBasedOnUser';
+
+
 
 
 
@@ -38,16 +38,14 @@ root.render(
 
         <Route path="/menus" element={<ViewMenu />} />
         <Route path="/menus/view/:id" element={<EditMenu />} />
+        <Route path="/menus/edit/:id" element={<EditMenu />} />
         <Route path="/menus/create" element={<CreateMenu />} />
 
         <Route path="/meal/edit/:menuid/:mealid" element={<EditMeal />} />
 
 
 {/* ORDERS */}
-        <Route path="/orders" element={<OrderUsers/>} />
-        <Route path="/orders/create/:orderid" element={<OrderSelection/>} />
-        <Route path="/orders/create/:orderid/menus/:menuid" element={<OrderMealList />} />
-
+        <Route path="/orders" element={<ShowOrdersBasedOnUser/>} />
       </Routes>
 
 

@@ -33,6 +33,10 @@ public class OrderService {
     }
 
     public Order createOrder(Order order) {
+        List<Meal> meals = order.getMeals();
+        for (Meal meal : meals) {
+            meal.setOrder(order);
+        }
         return orderRepository.save(order);
     }
 
@@ -45,28 +49,6 @@ public class OrderService {
     public void cancelOrder(Long id) throws OrderNotFoundException {
         Order order = getOrderById(id);
         orderRepository.delete(order);
-    }
-
-    public void addMealToOrder(Long orderId, Long mealId) throws OrderNotFoundException, MealNotFoundException {
-        Order order = getOrderById(orderId);
-        Meal meal = mealRepository.findById(mealId)
-                .orElseThrow(() -> new MealNotFoundException("Meal not found with id: " + mealId));
-
-        order.getMeals().add(meal);
-        meal.setOrder(order);
-
-        orderRepository.save(order);
-    }
-
-    public void removeMealFromOrder(Long orderId, Long mealId) throws OrderNotFoundException, MealNotFoundException {
-        Order order = getOrderById(orderId);
-        Meal meal = mealRepository.findById(mealId)
-                .orElseThrow(() -> new MealNotFoundException("Meal not found with id: " + mealId));
-
-        order.getMeals().remove(meal);
-        meal.setOrder(null);
-
-        orderRepository.save(order);
     }
 }
 

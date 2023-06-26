@@ -47,7 +47,7 @@ public class MealService {
 
         meal1.setTitle(meal.getTitle());
         meal1.setDescription(meal.getDescription());
-        meal1.setQuantity(meal.getQuantity());
+
 
         menu.getMeals().add(meal1);
         menuRepository.save(menu);

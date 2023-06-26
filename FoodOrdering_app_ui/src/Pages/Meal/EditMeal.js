@@ -22,7 +22,7 @@ export function EditMeal() {
   const [meals, setMeals] = useState({
     title: '',
     description: '',
-    quantity: '',
+    
   });
 
   useEffect(() => {
@@ -79,9 +79,8 @@ export function EditMeal() {
               <Table celled>
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell>Patiekala pavadinimas</Table.HeaderCell>
-                    <Table.HeaderCell>Aprasas</Table.HeaderCell>
-                    <Table.HeaderCell>Kiekis</Table.HeaderCell>
+                    <Table.HeaderCell>Dish title</Table.HeaderCell>
+                    <Table.HeaderCell>Description</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -99,25 +98,18 @@ export function EditMeal() {
                         onChange={e => updateProperty('description', e.target.value)}
                       />
                     </Table.Cell>
-                    <Table.Cell collapsing>
-                      <Input
-                        value={meals.quantity}
-                        onChange={e => updateProperty('quantity', e.target.value)}
-                      />
-                    </Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>
-              <Table celled></Table>
-
+        
               <Divider hidden></Divider>
 
               <Button icon labelPosition="left" className="" onClick={handleGoBack}>
                 <Icon name="arrow left" />
-                Atgal
+                Back
               </Button>
               <Button primary className="controls" id="details" onClick={updateMeals}>
-                Atnaujinti
+                Update
               </Button>
             </div>
           </Segment>

@@ -20,7 +20,6 @@ public class Meal {
     private Long id;
     private String title;
     private String description;
-    private int quantity;
     @ManyToOne
     @JoinColumn(name = "menu_id")
     @JsonIgnore

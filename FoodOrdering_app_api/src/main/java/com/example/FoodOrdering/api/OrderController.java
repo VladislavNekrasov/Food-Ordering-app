@@ -47,19 +47,6 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
-    @PostMapping("/{orderId}/meal/{mealId}")
-    @PreAuthorize("hasRole('USER') or  hasRole('ADMIN')")
-    public ResponseEntity<Order> addMealToOrder(@PathVariable Long orderId,@PathVariable Long mealId){
-        try {
-            orderService.addMealToOrder(orderId, mealId);
-            Order order = orderService.getOrderById(orderId);
-            return ResponseEntity.ok(order);
-        } catch (OrderNotFoundException orderNotFoundException) {
-            return ResponseEntity.notFound().build();
-        } catch (MealNotFoundException mealNotFoundException) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
     @PutMapping("/confirm/{orderId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Order> confirmOrder(@PathVariable Long orderId){

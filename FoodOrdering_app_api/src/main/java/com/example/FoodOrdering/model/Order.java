@@ -22,13 +22,7 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
     @ToString.Exclude
     private List<Meal> meals;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
     private boolean confirmed;
-
-
 
     @Override
     public boolean equals(Object o) {

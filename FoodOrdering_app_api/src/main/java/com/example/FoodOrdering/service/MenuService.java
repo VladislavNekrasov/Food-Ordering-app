@@ -38,8 +38,6 @@ public class MenuService {
                 .orElseThrow(() -> new IllegalArgumentException("Menu not found"));
 
         existingMenu.setTitle(menu.getTitle());
-        existingMenu.setMeals(menu.getMeals());
-
         return menuRepository.save(existingMenu);
     }
 }

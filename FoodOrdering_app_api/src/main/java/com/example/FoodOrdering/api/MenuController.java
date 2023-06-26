@@ -21,7 +21,7 @@ public class MenuController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') ")
     public List<Menu> getAll() {
         return menuService.getAllMenus();
     }
@@ -36,7 +36,7 @@ public class MenuController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity update(@PathVariable Long id, @RequestBody Menu menu) {
         try {

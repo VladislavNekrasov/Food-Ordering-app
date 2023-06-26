@@ -34,7 +34,7 @@ const ViewOrders = () => {
   const confirmOrder = async (id) => {
     try {
       await axios.put(`http://localhost:8080/api/FoodOrdering/orders/confirm/${id}`, true, { withCredentials: true });
-      fetchOrders(); // Fetch updated orders after confirmation
+      fetchOrders();
     } catch (error) {
       setError(error.message);
     }

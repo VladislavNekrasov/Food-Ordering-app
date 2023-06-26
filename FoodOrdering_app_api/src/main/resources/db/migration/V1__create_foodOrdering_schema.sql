@@ -28,25 +28,23 @@ CREATE TABLE menu (
    title VARCHAR(255),
    CONSTRAINT pk_menu PRIMARY KEY (id)
 );
+
 CREATE TABLE orders (
   id BIGINT AUTO_INCREMENT NOT NULL,
-   user_id INT,
    confirmed BOOLEAN NOT NULL,
-   CONSTRAINT pk_orders PRIMARY KEY (id),
-   CONSTRAINT FK_ORDERS_ON_USER FOREIGN KEY (user_id) REFERENCES users (id)
+   CONSTRAINT pk_orders PRIMARY KEY (id)
 );
+
 
 CREATE TABLE meal (
   id BIGINT AUTO_INCREMENT NOT NULL,
    title VARCHAR(255),
    description VARCHAR(255),
-   quantity INT NOT NULL,
    menu_id BIGINT,
    order_id BIGINT,
    CONSTRAINT pk_meal PRIMARY KEY (id),
    CONSTRAINT FK_MEAL_ON_MENU FOREIGN KEY (menu_id) REFERENCES menu (id),
    CONSTRAINT FK_MEAL_ON_ORDER FOREIGN KEY (order_id) REFERENCES orders (id)
 );
-
 
 

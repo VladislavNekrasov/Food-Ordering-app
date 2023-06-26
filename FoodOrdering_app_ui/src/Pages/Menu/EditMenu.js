@@ -7,8 +7,6 @@ import AuthService from "../../services/auth.service";
 import axios from "axios";
 
 
-
-
 export function EditMenu() {
   const params = useParams();
   const [open, setOpen] = useState(false);
@@ -25,8 +23,6 @@ export function EditMenu() {
 
   const [mealTitle, setMealTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
-
   const [externalMealList, setExternalMealList] = useState([]);
 
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -42,10 +38,7 @@ export function EditMenu() {
     }
   }, []);
 
-  const [orderId, setOrderId] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  
   const [isUpdateSuccessful, setIsUpdateSuccessful] = useState(false);
 
   // Fetch menu
@@ -61,13 +54,13 @@ export function EditMenu() {
       });
   }, [params.id]);
 
- 
+
   const fetchMeals = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/api/FoodOrdering/meal/all/${params.id}`, {
         withCredentials: true,
       });
-  
+
       setExternalMealList(response.data);
     } catch (error) {
       setError(error.message);
@@ -77,7 +70,7 @@ export function EditMenu() {
   useEffect(() => {
     fetchMeals();
   }, []);
-  
+
 
   const createMeal = async () => {
     try {
@@ -86,7 +79,6 @@ export function EditMenu() {
         {
           title: mealTitle,
           description,
-          quantity,
         },
         {
           withCredentials: true,
@@ -105,16 +97,8 @@ export function EditMenu() {
   const updateMenus = async () => {
     const updatedMenus = { ...menus, title: menus.title };
   
-    if (externalMealList.length > 0) {
-      // Create a new list of meals with the updated externalMealList
-      const updatedMealList = externalMealList.map(meal => ({ ...meal }));
-  
-      // Update the meals property of the updatedMenus object
-      updatedMenus.mealList = updatedMealList;
-    }
-  
     try {
-      const response = await axios.put(
+      const response = await axios.patch(
         `http://localhost:8080/api/FoodOrdering/menu/update/${params.id}`,
         updatedMenus,
         {
@@ -135,7 +119,7 @@ export function EditMenu() {
       setError(error.message);
     }
   };
-  
+
   const deleteMeal = async (id) => {
     axios
       .delete(`http://localhost:8080/api/FoodOrdering/meal/delete/${params.id}/${id}`, {
@@ -158,7 +142,6 @@ export function EditMenu() {
     setModalOpen(false);
     setMealTitle("");
     setDescription("");
-    setQuantity("");
   };
 
   const updateProperty = (property, event) => {
@@ -172,53 +155,47 @@ export function EditMenu() {
   return (
     <div>
       <MainMenu />
-      
+
 
       <Grid columns={2}>
-      
+
         <Grid.Column width={2} id="main"></Grid.Column>
         <Grid.Column textAlign="left" verticalAlign="top" width={13}>
           <Segment id="segment" color="blue">
             <div>
-            {isUpdateSuccessful && (
-  <div className="ui success message">
-    <i className="close icon" onClick={() => setIsUpdateSuccessful(false)}></i>
-    <div className="header">Update Successful</div>
-    <p>The menu has been updated successfully.</p>
-  </div>
-)}
+              {isUpdateSuccessful && (
+                <div className="ui success message">
+                  <i className="close icon" onClick={() => setIsUpdateSuccessful(false)}></i>
+                  <div className="header">Update Successful</div>
+                  <p>The menu has been updated successfully.</p>
+                </div>
+              )}
+
               <Modal open={modalOpen} onClose={handleModalClose}>
-                <Modal.Header>Patiekalai</Modal.Header>
+                <Modal.Header>Dishes</Modal.Header>
                 <Modal.Content>
                   <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <div style={{ paddingRight: "5%" }}>
-                      <h4>Pavadinimas</h4>
+                      <h4>Title</h4>
                       <div className="ui input">
-                        <input onChange={(e) => setMealTitle(e.target.value)} type="text" placeholder="Pavadinimas" />
+                        <input onChange={(e) => setMealTitle(e.target.value)} type="text" placeholder="Title" />
                       </div>
                     </div>
 
                     <div style={{ paddingRight: "5%" }}>
-                      <h4>Aprasymas</h4>
+                      <h4>Description</h4>
                       <div className="ui input">
-                        <input onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Aprasymas" />
-                      </div>
-                    </div>
-
-                    <div style={{ paddingRight: "5%" }}>
-                      <h4>Kiekis</h4>
-                      <div className="ui input">
-                        <input onChange={(e) => setQuantity(e.target.value)} type="text" placeholder="Kiekis" />
+                        <input onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Description" />
                       </div>
                     </div>
                   </div>
 
                   <div style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Button onClick={createMeal} className="ui blue button">
-                      Prideti
+                      Add
                     </Button>
                     <button onClick={handleModalClose} className="ui red button">
-                      Atsaukti
+                      Cancel
                     </button>
                   </div>
                 </Modal.Content>
@@ -227,7 +204,7 @@ export function EditMenu() {
               <Table celled>
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell colSpan={4}>Meniu pavadinimas</Table.HeaderCell>
+                    <Table.HeaderCell colSpan={4}>Menu title</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -244,30 +221,26 @@ export function EditMenu() {
               <Table celled color="blue">
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell colSpan={4}>Patiekalai</Table.HeaderCell>
+                    <Table.HeaderCell colSpan={4}>Dishes</Table.HeaderCell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.HeaderCell>Pavadinimas</Table.HeaderCell>
-                    <Table.HeaderCell>Aprasymas</Table.HeaderCell>
-                    <Table.HeaderCell>Kiekis</Table.HeaderCell>
-                    <Table.HeaderCell>Veiksmai</Table.HeaderCell>
+                    <Table.HeaderCell>Title</Table.HeaderCell>
+                    <Table.HeaderCell>Description</Table.HeaderCell>
+                    {showAdminFunctions && (
+                      <Table.HeaderCell>Actions</Table.HeaderCell>
+                    )}
+                    
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
                   {externalMealList.map((meal) => (
                     <Table.Row key={meal.id}>
-                    <Table.Cell>{meal.title}</Table.Cell>
-                    <Table.Cell>{meal.description}</Table.Cell>
-                    <Table.Cell>{meal.quantity}</Table.Cell>
-                    <Table.Cell collapsing>
-                        {showUserFunctions && (
-                          <Link to={`/meal/edit/${params.id}/${meal.id}`}>
-                          <Button id="icocolor" basic compact icon="plus" title="Add to order" />
-                          </Link>
-                        )}
+                      <Table.Cell>{meal.title}</Table.Cell>
+                      <Table.Cell>{meal.description}</Table.Cell>
+                      <Table.Cell collapsing>
                         {showAdminFunctions && (
                           <Link to={`/meal/edit/${params.id}/${meal.id}`}>
-                            <Button id="icocolor" basic compact icon="edit" title="Redaguoti" />
+                            <Button id="icocolor" basic compact icon="edit" title="Edit" />
                           </Link>
                         )}
                         {showAdminFunctions && (
@@ -275,17 +248,17 @@ export function EditMenu() {
                             id="icocolor"
                             basic
                             compact
-                            title="Istrinti"
+                            title="Delete"
                             icon="trash"
                             onClick={() => setOpen(meal.id)}
                           />
                         )}
                         <Confirm
                           open={open}
-                          header="Dėmesio!"
-                          content="Ar tikrai norite Istrinti?"
-                          cancelButton="Atgal"
-                          confirmButton="Taip"
+                          header="Attention!"
+                          content="Are you sure you want to delete Meal?"
+                          cancelButton="Cancel"
+                          confirmButton="Yes"
                           onCancel={() => setOpen(false)}
                           onConfirm={() => deleteMeal(open)}
                           size="small"
@@ -298,25 +271,25 @@ export function EditMenu() {
               <Divider hidden />
               {showAdminFunctions && (
                 <Button primary className="controls" id="details" onClick={updateMenus}>
-                  Atnaujinti
+                  Update
                 </Button>
               )}
               {showAdminFunctions && (
                 <Button
                   id="details"
-                  title="Kurti naują Patiekala"
+                  title="Create new dish"
                   icon
                   labelPosition="left"
                   className="controls"
                   onClick={handleModalOpen}
                 >
                   <Icon name="plus" />
-                  Kurti naują Patiekala
+                  Add new dish
                 </Button>
               )}
               <Button icon labelPosition="left" className="" href="#/menus">
                 <Icon name="arrow left" />
-                Atgal
+                Back
               </Button>
             </div>
           </Segment>

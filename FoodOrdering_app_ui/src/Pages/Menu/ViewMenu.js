@@ -55,7 +55,7 @@ export function ViewMenu() {
       {showAdminFunctions && (
              <Button
           id="details"
-          title="Kurti naują meniu"
+          title="Create new menu"
           icon
           labelPosition="left"
           className="controls"
@@ -64,7 +64,7 @@ export function ViewMenu() {
           to="/menus/create"
         >
           <Icon name="plus" />
-          Kurti naują meniu
+          Create new menu
         </Button> 
             )}
         
@@ -73,8 +73,8 @@ export function ViewMenu() {
 
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Pavadinimas</Table.HeaderCell>
-              <Table.HeaderCell>Redagavimas</Table.HeaderCell>
+              <Table.HeaderCell>Menu Title</Table.HeaderCell>
+              <Table.HeaderCell>Actions</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -89,8 +89,8 @@ export function ViewMenu() {
                       id="icocolor"
                       basic
                       compact
-                      icon="plus"
-                      title="Peržiūrėti"
+                      icon="eye"
+                      title="Look"
                     ></Button>
                   </Link>
                 )}
@@ -104,7 +104,7 @@ export function ViewMenu() {
                       basic
                       compact
                       icon="edit"
-                      title="Redaguoti"
+                      title="Edit"
                     ></Button>
                   </Link>
                   )}
@@ -114,7 +114,7 @@ export function ViewMenu() {
                     id="icocolor"
                     basic
                     compact
-                    title="Istrinti"
+                    title="Delete"
                     icon="trash"
                     onClick={() => setOpen(menu.id)}
                   ></Button>
@@ -122,10 +122,10 @@ export function ViewMenu() {
                   
                   <Confirm
                     open={open}
-                    header="Dėmesio!"
-                    content="Ar tikrai norite Istrinti?"
-                    cancelButton="Atgal"
-                    confirmButton="Taip"
+                    header="Attention!"
+                    content="Are you sure you want to delete menu?"
+                    cancelButton="Cancel"
+                    confirmButton="Yes"
                     onCancel={() => setOpen(false)}
                     onConfirm={() => DeleteMenu(open)}
                     size="small"
